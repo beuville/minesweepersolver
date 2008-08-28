@@ -4,7 +4,7 @@
 
   * Beau
     * Interface usability
-    *C++
+    * C++
   * Chris
     * Artificial intellegance
     * C 
