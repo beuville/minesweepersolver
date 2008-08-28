@@ -1,9 +1,0 @@
-= Mine Sweeper Solver =
-
-= Details =
-
-  * Prospectus
-
-  * Design Document
-
-  * Time Keeping
