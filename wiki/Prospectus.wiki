@@ -6,4 +6,4 @@
   * Chris Tarr
   * Michael Stowe
 
-[home]
+[Home]
