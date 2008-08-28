@@ -1,4 +1,0 @@
-#Mine Sweeper Solver Home
-
-  * [Prospectus]
-  * Design Document 
