@@ -1,0 +1,6 @@
+#Mine Sweeper Solver Home
+
+= Project Documents =
+
+  * [Prospectus]
+  * Design Document
