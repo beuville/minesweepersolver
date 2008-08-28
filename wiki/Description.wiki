@@ -1,0 +1,14 @@
+#Detailed description of the proposed project.
+
+= Introduction =
+
+The proposed project is to create an program that will produce as output a program that consistently wins the game of minesweeper. The main challenge of this project will be to randomly create a population of programs that can play minesweeper with varying degrees of success. Then, using principles of genetic algorithms, test, mutate, and recombine the initial population iteratively until a successful minesweeper program results. 
+
+= Requirements =
+
+The project will require some basic components to function. 
+
+First will be a version of minesweeper that can be interfaced by our generated program population. Essentially it will be a user-less game of minesweeper that can be queried for the state of its game board. The result of such queries will be machine readable representations of the playing state of the bored, (i.e. what numbers are on what squares and what squares are still available to be picked.) This version will be able to be graphically displayable, but not necessarily so. More importantly, multiple instances will run simultaneously in order to test multiple individuals from the population at the same time.  
+
+
+= Methodology =
