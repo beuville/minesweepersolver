@@ -8,5 +8,9 @@ Primary development will be done in the visual c++ environment.
 
 Documentation and versioning will be handled by google docs and google code.
 
+= Libraries =
+
+KDE Minesweeper Source code
+
 [Prospectus]
 [Home]
