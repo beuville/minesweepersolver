@@ -6,9 +6,21 @@ The proposed project is to create an program that will produce as output a progr
 
 = Requirements =
 
-The project will require some basic components to function. 
+The project will require some basic components to function. They are as follows: 
+
+== Game Board ==
 
 First will be a version of minesweeper that can be interfaced by our generated program population. Essentially it will be a user-less game of minesweeper that can be queried for the state of its game board. The result of such queries will be machine readable representations of the playing state of the bored, (i.e. what numbers are on what squares and what squares are still available to be picked.) This version will be able to be graphically displayable, but not necessarily so. More importantly, multiple instances will run simultaneously in order to test multiple individuals from the population at the same time.  
 
+== Virtual Machine ==
+
+Next will be a virtual machine on which minesweeper related code can be run. Rather than have our main program create code require compilation, we will build a virtual engine that will encompass the breadth and depth of all minesweeper related commands. This will include the following:
+
+  * variable assignment 
+  * arrays
+  * querying the board for its state
+  * win / loss conditions
+
+The virtual machine will be the central entity connecting the test population with the game boards as well as the main program. Furthermore the main program will be using the library of tools associated with the minsweeper game found in virtual machine for creating the test popultation 
 
 = Methodology =
