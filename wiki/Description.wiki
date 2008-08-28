@@ -21,8 +21,8 @@ Next will be a virtual machine on which minesweeper related code can be run. Rat
   * conditional testing (if / then / else )
   * looping (for / do / while )
   * querying the board for its state
-  * game creation
-  * game options
+  * game board creation
+  * game board options
   * win / loss conditions
 
 The virtual machine will be the central entity connecting the test population with the game boards as well as the main program. Furthermore the main program will be using the library of tools associated with the minesweeper game found in virtual machine for creating the test population 
