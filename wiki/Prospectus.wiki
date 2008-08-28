@@ -12,8 +12,9 @@ Minesweeper Solver will essentially be a genetic algorithm for creating software
 
 = Pages =
 
-  * [Expertise]
+  * [Description]
   * [Achievements]
+  * [Expertise]
   * [Tools]
 
 [Home]
