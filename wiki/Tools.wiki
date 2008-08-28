@@ -1,0 +1,12 @@
+#tools and libraries used in the project.
+
+= Development =
+
+Primary development will be done in the visual c++ environment.
+
+= Documentation =
+
+Documentation and versioning will be handled by google docs and google code.
+
+[Prospectus]
+[Home]
