@@ -37,7 +37,7 @@ This program has the possibility of having a very open scope. Minesweeper was ch
 
 = Main Program = 
 
-The goal of the main program is to generate code, specifically code that is capable of playing the game of minesweeper. These pieces of code do not need to beat the game of minesweeper, but they do need to play the game in a deterministic fashion. Each test case created by the main program will be tested against a board via the virtual machine and evaluated based on how well it played and or how fast it solved the board. The more successful test cases will be kept, cross bred with other cases, mutated and then retested until satisfactory speed and completion rates are achieved. 
+The goal of the main program is to generate code specifically capable of playing the game of minesweeper. These pieces of code do not need to beat the game of minesweeper, but they do need to play the game in a deterministic fashion. Each test case created by the main program will be tested against a board via the virtual machine and evaluated based on how well it played and or how fast it solved the board. The more successful test cases will be kept, cross bred with other cases, mutated and then retested until satisfactory speed and completion rates are achieved. 
 
 From the main program options for population size, mutation rates, and crossover rates will be present along with game options queried from the virtual machine. In the case of minesweeper this will take the form of board size and game difficulty. Other options will involve the visualization of the game boards (which are hidden which aren't) and progress/population statistics (most successful, population size, success rate, etc.)
 
