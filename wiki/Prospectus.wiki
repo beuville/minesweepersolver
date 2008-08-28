@@ -1,9 +1,10 @@
-#summary One-sentence summary of this page.
+#Prospectus 467 2008 Minesweeper Solver
 
-= Introduction =
+= Team Members =
 
-Add your content here.
-
+  * Beau Furrow
+  * Chris Tarr
+  * Michael Stowe
 
 = Details =
 
