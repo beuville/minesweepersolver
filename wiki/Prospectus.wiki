@@ -1,4 +1,4 @@
-#Prospectus 467 2008 Minesweeper Solver
+#Prospectus cs467,  fall 2008 Minesweeper Solver
 
 = Team Members =
 
@@ -6,9 +6,4 @@
   * Chris Tarr
   * Michael Stowe
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+[home]
