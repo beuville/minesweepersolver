@@ -10,6 +10,10 @@
 
 Minesweeper Solver will essentially be a genetic algorithm for creating software to solve the classic game minesweeper.
 
-[Technical Expertise]
+= Pages =
+
+  * [Expertise]
+  * [Achievements]
+  * [Tools]
 
 [Home]
