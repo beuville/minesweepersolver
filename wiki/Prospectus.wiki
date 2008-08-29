@@ -3,7 +3,7 @@
 = Team Members =
 
   * Beau Furrow
-  * Chris Tarr
+  * Cris Tarr
   * Michael Stowe
 
 = Brief =
