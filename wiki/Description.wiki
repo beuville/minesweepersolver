@@ -26,7 +26,7 @@ Next will be a virtual machine on which minesweeper related code can be run. Rat
   * game board creation
   * game board options
   * win / loss conditions
-  * Performance metric standardization
+  * performance metric standardization
 
 The virtual machine will be the central entity connecting the test population with the game boards as well as with the main program. Furthermore the main program will be using the library of tools associated with the minesweeper game found in virtual machine for creating the test population. (i.e minesweeper commands)
 
