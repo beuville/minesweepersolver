@@ -2,7 +2,7 @@
 
 = Introduction =
 
-The proposed project is to create an program that will produce as output a program that consistently wins the game of minesweeper. The main challenge of this project will be to randomly create a population of programs that can play minesweeper with varying degrees of success. Then, using principles of genetic algorithms, test, mutate, and recombine the initial population iteratively until a successful minesweeper program results. 
+The proposed project is to create a program that will produce as output programs that consistently win the game of minesweeper. The main challenge of this project will be to randomly create a population of programs that can play minesweeper with varying degrees of success. Then, using principles of genetic algorithms, test, mutate, and recombine the initial population iteratively until a successful minesweeper program results. 
 
 = Requirements =
 
@@ -10,7 +10,7 @@ The project will require some basic components to function. They are as follows:
 
 == Game Board ==
 
-First will be a version of minesweeper that can be interfaced by our generated program population. Essentially it will be a user-less game of minesweeper that can be queried for the state of its game board. The result of such queries will be machine readable representations of the playing state of the bored, (i.e. what numbers are on what squares and what squares are still available to be picked.) This version will be able to be graphically displayable, but not necessarily so. More importantly, multiple instances will run simultaneously in order to test multiple individuals from the population at the same time. Boards will have the options of varying difficulty and size. Also an option to randomize the bored will be available (defaulted to on, removable for testing)
+First will be a version of minesweeper that can be interfaced by our generated program population. Essentially it will be a user-less game of minesweeper that can be queried for the state of its game board. The result of such queries will be machine readable representations of the playing state of the bored, (i.e. what numbers are on what squares and what squares are still available to be picked.) This version will be able to be graphically displayable, but not necessarily so. More importantly, multiple instances will run simultaneously in order to test multiple individuals from the population at the same time. Boards will have the options of varying difficulty and size. Also an option to randomize the bored will be available (defaulted to on, removable for testing) Upon completion of the game, boards will return metrics to be used to evaluate the success of their 'player' program.
 
 The game board will either come from the KDE Minesweeper source, be built from scratch, or some combination of the both. 
 
@@ -26,14 +26,15 @@ Next will be a virtual machine on which minesweeper related code can be run. Rat
   * game board creation
   * game board options
   * win / loss conditions
+  * Performance metric standardization
 
-The virtual machine will be the central entity connecting the test population with the game boards as well as the main program. Furthermore the main program will be using the library of tools associated with the minesweeper game found in virtual machine for creating the test population 
+The virtual machine will be the central entity connecting the test population with the game boards as well as with the main program. Furthermore the main program will be using the library of tools associated with the minesweeper game found in virtual machine for creating the test population. (i.e minesweeper commands)
 
 The virtual machine will be developed from scratch. 
 
 = Methodology =
 
-This program has the possibility of having a very open scope. Minesweeper was chosen as a starting point to create the test population generator as well as test the genetic iteration tester. With that said, it is possible to replace minesweeper as the chosen game with other games as long as they have an interface compatible with the main program. Therefore one of the goals of this project is to separate all minesweeper specific code from the main program and keep it instead virtual machine. This will allow the main program to create test populations for other games provided that they have a compatible virtual machine. 
+This program has the possibility of having a very open scope. Minesweeper was chosen as a starting point to create the test population generator as well as test the genetic iteration tester. With that said, it is possible to replace minesweeper as the chosen game with other games as long as they have an interface compatible with the main program. Therefore one of the goals of this project is to separate all minesweeper specific code from the main program and keep it instead in a virtual machine plug-in. This will allow the main program to create test populations for other games provided that they have a compatible virtual machine interface. 
 
 = Main Program = 
 
