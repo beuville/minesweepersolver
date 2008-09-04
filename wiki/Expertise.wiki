@@ -6,7 +6,7 @@
     * Interface usability
     * C++
   * Chris
-    * Artificial intellegance
+    * Artificial intelligence
     * C 
   * Michael
     * Iterated Functions
