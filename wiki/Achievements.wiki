@@ -3,6 +3,7 @@
 = Technical Achievements =
 
   * Virtual minesweeper code engine
+    * Multithreaded
   * Genetic population, testing, and iteration
 
 [Prospectus]
