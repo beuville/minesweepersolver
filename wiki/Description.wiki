@@ -36,6 +36,8 @@ The virtual machine will be developed from scratch.
 
 This program has the possibility of having a very open scope. Minesweeper was chosen as a starting point to create the test population generator as well as test the genetic iteration tester. With that said, it is possible to replace minesweeper as the chosen game with other games as long as they have an interface compatible with the main program. Therefore one of the goals of this project is to separate all minesweeper specific code from the main program and keep it instead in a virtual machine plug-in. This will allow the main program to create test populations for other games provided that they have a compatible virtual machine interface. 
 
+An extension of this line of thought will be an overall attempt to modularize the individual components (game, vm, and main) to allow for easy updates/adaptations as well as smooth parallel development. 
+
 = Main Program = 
 
 The goal of the main program is to generate code specifically capable of playing the game of minesweeper. These pieces of code do not need to beat the game of minesweeper, but they do need to play the game in a deterministic fashion. Each test case created by the main program will be tested against a board via the virtual machine and evaluated based on how well it played and or how fast it solved the board. The more successful test cases will be kept, cross bred with other cases, mutated and then retested until satisfactory speed and completion rates are achieved. 
