@@ -3,4 +3,4 @@
 = Project Documents =
 
   * [Prospectus]
-  * Design Document
+  * [Design Document]
