@@ -4,6 +4,8 @@
 
 Our design philosophy will be the Bottom-Up approach.  In this approach we will use or create low-level systems and then piece them together to create a complete, and reusable, system.  
 
+The project has been compartmentalized into 3 small components: the minesweeper game, the virtual machine, and the main genetic program.  
+
 Since the game of minesweeper has already been created, we are using this code as a starting point to how we want to develop our solver.  Then we will create our virtual machine, which will allow us to run various minesweeper games and tests.  After the virtual machine is complete, the main program will be established, allowing for the genetic algorithms to take effect, and allow for mutating, pruning, and crossover alterations.
 
 = Testing Philosophy =
