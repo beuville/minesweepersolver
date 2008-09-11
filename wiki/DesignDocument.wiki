@@ -1,0 +1,9 @@
+#Mine Sweeper Solver Design Document
+
+= Contents =
+
+  * Detailed Description
+  * Design Environment
+  * Design Methodologies
+  * Technical Achievement
+  * [http://spreadsheets.google.com/ccc?key=pcZ1QpE61pv04SDXKZa2rVA&hl=en Gantt Chart] 
