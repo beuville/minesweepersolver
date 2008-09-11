@@ -1,4 +1,7 @@
 #Design Methodologies
 
+= Design Philosophy =
+
+= Testing Philosophy =
 
 [DesignDocument Design Document] [Home]
