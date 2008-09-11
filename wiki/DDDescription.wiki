@@ -1,0 +1,4 @@
+#Detailed Minesweeper Solver Description
+
+
+[DesignDocument Design Document] [Home]
