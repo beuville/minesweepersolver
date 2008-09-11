@@ -2,6 +2,8 @@
 
 = Design Philosophy =
 
+Our design philosophy will be the Bottom-Up approach.  In this approach we will use or create low-level systems and then piece them together to create a complete, and reusable, system.
+
 = Testing Philosophy =
 
 [DesignDocument Design Document] [Home]
