@@ -1,5 +1,3 @@
 #Design tools and environments
 
-
-
-[DesignDocument] [Home]
+[DesignDocument Design Document] [Home]
