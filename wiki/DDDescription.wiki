@@ -1,5 +1,15 @@
 #Detailed Minesweeper Solver Description
 
-[http://docs.google.com/Doc?id=dffv9tbz_1kg8bwkds UML Diagram]
+= Purpose =
+
+The purpose for this document is to elaborate on the design of the Mine Sweeper Solver project using three milestones as a framework and timeline. These milestones can be seen on the [http://spreadsheets.google.com/pub?key=pcZ1QpE61pv04SDXKZa2rVA Gantt Chart]. For a description of the project based on components see the [Prospectus].
+
+= Milestones =
+
+  * [Milestone1 Milestone 1]: Game board
+  * [Milestone2 Milestone 2]: Virtual machine
+  * [Milestone3 Milestone 3]: Main
+
+Component interaction will follow the general outline of this [http://docs.google.com/Doc?id=dffv9tbz_1kg8bwkds UML Diagram].
 
 [DesignDocument Design Document] [Home]
