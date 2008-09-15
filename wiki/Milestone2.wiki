@@ -6,10 +6,20 @@ Completed By: 10/27/08
   * Game instance
   * Integration
 
+= Goals =
+
+The goal of the second milestone is to complete the virtual machine and test its components. The virtual machine will run multiple game instances simulataneously testing the entire population. Each game requires a working parser and game interface. All of these components need to be completed and tested in order to assemble the virtual machine. 
+
 == Program parser ==
+
+Supervisor: Mike Stowe
 
 == Game instance ==
 
-== Integration ==
+Supervisor: Cris Tarr
+
+== Integration == 
+
+Supervisor: Beau Furrow
 
 [DDDescription Description] [DesignDocument Design Document] [Home]
