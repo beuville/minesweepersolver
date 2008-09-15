@@ -1,0 +1,5 @@
+= Components =
+
+  * Game board
+  * Game interface
+  * Programming language definition
