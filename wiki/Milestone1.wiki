@@ -6,6 +6,10 @@ Completed by: 10/6/08
   * Game interface
   * Programming language definition
 
+= Goals =
+
+The goal of the first milestone is to make all necessary preparations to begin work on the virtual machine. The virtual machine is one of the technical achievents for the project and requires some foundation before work on it can be started. 
+
 == Game board ==
 
 Supervisor: Cris Tarr
