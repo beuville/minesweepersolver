@@ -8,10 +8,18 @@ Completed By: 11/17/08
 
 = Goals =
 
-The goal of the third milestone is to have the bulk of the main program complete. With the virtual machine completed in the second milestone, the work remaining revolves around creating populations of game-playing code and iterating their growth via mutations, crossovers and prunings. 
+The goal of the third milestone is to have the bulk of the main program complete. With the virtual machine completed in the second milestone, the work remaining revolves around creating populations of game-playing code and iterating their 'evolution' via mutations, crossovers and prunings. 
 
-== Configuration files / fiel formats ==
+== Configuration files / file formats ==
+
+Supervisor: Beau Furrow
 
 == Population ==
 
+Supervisor: Cris Tarr
+
 == Iteration ==
+
+Supervisor: Mike Stowe
+
+[DDDescription Description] [DesignDocument Design Document] [Home]
