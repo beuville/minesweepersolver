@@ -1,0 +1,17 @@
+Completed By: 11/17/08
+
+= Components =
+
+  * Configuration files / file formats
+  * Population
+  * Iteration
+
+= Goals =
+
+The goal of the third milestone is to have the bulk of the main program complete. With the virtual machine completed in the second milestone, the work remaining revolves around creating populations of game-playing code and iterating their growth via mutations, crossovers and prunings. 
+
+== Configuration files / fiel formats ==
+
+== Population ==
+
+== Iteration ==
