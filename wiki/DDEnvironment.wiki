@@ -1,3 +1,15 @@
-#Design tools and environments
+== Language ==
 
+This project will be done entirely in C++
+
+== Environment ==
+
+Due to the graphical components of this project we will be using the Visual C++ Studio for development. 
+
+== APIs / Libraries ==
+
+Having decided on developing our own minesweeper as well as all of our own genetic algorithms, there are currently no outside libraries being used.
+
+kde minesweeper source was consulted as a reference
+  
 [DesignDocument Design Document] [Home]
