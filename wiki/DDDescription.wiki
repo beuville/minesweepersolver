@@ -8,7 +8,7 @@ The purpose for this document is to elaborate on the design of the Mine Sweeper 
 
   * [Milestone1 Milestone 1]: Game board
   * [Milestone2 Milestone 2]: Virtual machine
-  * [Milestone3 Milestone 3]: Main
+  * [Milestone3 Milestone 3]: Main program
 
 Component interaction will follow the general outline of this [http://docs.google.com/Doc?id=dffv9tbz_1kg8bwkds UML Diagram].
 
