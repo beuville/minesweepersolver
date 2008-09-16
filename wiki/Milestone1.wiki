@@ -28,4 +28,6 @@ Supervisor: Mike Stowe
 
 The virtual machine will test the code of each member of the its population against game of minesweeper via a program parser, however the parser needs a detailed description of the programming language being used in order to interpret commands. Therefore, before the parser can be build and the virtual machine assembled, a detailed definition of the vm's programming language must be written. This includes the languages structures (i.e. symbol table) and syntax's (variables, conditionals, and loops)
 
+[Milestone2]
+
 [DDDescription Description] [DesignDocument Design Document] [Home]
