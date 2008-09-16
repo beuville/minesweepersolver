@@ -26,6 +26,8 @@ With the game interface completed from [Milestone1] and the parser completed, th
 
 Supervisor: Beau Furrow
 
-The integration phase of the second milestone revolves around connecting the constituent parts of the game interface with one-another as well as completing the virtual machine by attaching multiple game interfaces to separate, concurrent, processes fulfilling the goal of multi-threading the virtual machine. This also entails setting up functionality to control/communicate with the virtual machine through the main program to be developed in [Milestone3].
+The integration phase of the second milestone revolves around connecting the constituent parts of the game interface with one-another as well as completing the virtual machine by attaching multiple game interfaces to separate, concurrent, processes fulfilling the goal of multi-threading the virtual machine. These processes will need to, in an orderly non-locking fashion, report the results of the games to shared resources that will be eventually reported back to the main program. This phase will also see the creation of   functionality to control/communicate with the virtual machine through the main program.
+
+[Milestone3]
 
 [DDDescription Description] [DesignDocument Design Document] [Home]
