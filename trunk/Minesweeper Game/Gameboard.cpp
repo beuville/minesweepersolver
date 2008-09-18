@@ -6,6 +6,8 @@ using namespace std;
 * constructor
 */
 Gameboard::Gameboard(int bWidth, int bHeight, int nMines, int seed) {
+    newBoard = true;
+    
     //set the seed
     gameSeed = seed;
     if(gameSeed==-1)
@@ -80,7 +82,7 @@ bool Gameboard::setMine() {
 * report percentage of board cleared
 */
 float Gameboard::percentComplete() {
-    float percent =  (1.0*boardSquaresCleared)/((boardWidth*boardHeight)-boardNumberOfMines);
+    float percent = (1.0*boardSquaresCleared)/((boardWidth*boardHeight)-boardNumberOfMines);
     return (percent*100);
 }
 /*
@@ -89,22 +91,19 @@ float Gameboard::percentComplete() {
 void Gameboard::pickSquare(int i, int n) {
     if(i<boardWidth && n<boardHeight && i>-1 && n>-1)
     {
+        if(newBoard){
+            startSquarei = i;
+            startSquaren = n;
+            generate();
+            newBoard = false;
+            pickSquare(i, n);
+        }
         //find value of picked square
         int contents = getCoordinate(i, n, 'm');
         
         //check to see if it's a mine
         if(contents == TYPE_MINE){
-            //if a mine, and it's the first move, reset seed
-            if(percentComplete() == 0.0){
-                if(gameSeed==-1)
-                    srand(time(0));
-                else
-                    srand(gameSeed+1);
-                generate();
-                pickSquare(i,n);
-            }
-            //display percent complete
-            else
+            //if a mine display percent complete
                 cout << percentComplete() << endl;
         }
         //if it's already been picked, do nothing
@@ -185,6 +184,7 @@ void Gameboard::generate() {
             for (int n = 0; n <= boardHeight-1; n++) {
                 //check to see if a mine can/should be placed
                 if (minesToBePlaced != 0 && (getCoordinate(i, n, 'm') != TYPE_MINE)
+                                         && !(i == startSquarei && n == startSquaren)
                                          && (setMine())) {
                     setCoordinate(i, n, TYPE_MINE, 'm');
                     placeAttached(i, n, 'm');

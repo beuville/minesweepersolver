@@ -19,6 +19,9 @@ class Gameboard {
         int boardHeight;
         int boardNumberOfMines;
         int boardSquaresCleared;
+        int startSquarei;
+        int startSquaren;
+        bool newBoard;
     private:
         int gameSeed;
         bool setMine();
