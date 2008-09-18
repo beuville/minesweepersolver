@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include "Gameboard.h"
 using namespace std;
 /*

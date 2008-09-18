@@ -1,6 +1,6 @@
 #include <iostream>    // declarations for I/O
 #include "Gameboard.h"
-#include "Usercontrol.h"
+#include "UserControl.h"
 
 int main()            // main function main()
 {
