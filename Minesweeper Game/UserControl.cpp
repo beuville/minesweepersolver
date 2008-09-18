@@ -29,7 +29,7 @@ UserControl::UserControl(){
     z = atoi(input);
     
     Gameboard *board = new Gameboard(x,y,z);
-    board->generate();
+    //board->generate();
     
 
     while(1){
