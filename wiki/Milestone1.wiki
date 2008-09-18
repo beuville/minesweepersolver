@@ -20,7 +20,7 @@ The game board essentially is the game of minesweeper. In the interest of smooth
 
 Supervisor: Beau Furrow
 
-The game interface acts as a medium between the virtual machine and the actual game. The game interface will have 'knowledge' of all game-specific commands via a text/xml config. file. This configuration file does not necessarily need to be build or defined until milestone 3, rather commands will be build into the interface to allow for testing of the board and program parser.
+The game interface acts as a medium between the virtual machine and the actual game. The game interface will have 'knowledge' of all game-specific commands via a text/xml configuration file. This configuration file does not necessarily need to be build or defined until milestone 3, rather commands will be build into the interface to allow for testing of the board and program parser.
 
 == Programming language definition ==
 
