@@ -11,6 +11,6 @@ The purpose for this document is to elaborate on the design of the Mine Sweeper 
   * [Milestone3 Milestone 3]: Main program
   * [postMilestone Post Milestones]: Finishing touches
 
-Component interaction will follow the general outline of this [http://docs.google.com/Doc?id=dffv9tbz_1kg8bwkds UML Diagram].
+Component interaction will follow the general outline of this [http://docs.google.com/Doc?id=dffv9tbz_3ch2v3xd3 UML Diagram].
 
 [DesignDocument Design Document] [Home]
