@@ -47,23 +47,23 @@ struct symbol_table{
 	sytnax will be used in conjunction with regular expression matching to identify commands. 
 	See actions.cfg
 */
-struct actions{
-	char command[16];
-	char action[16];
-	char syntax[64];
+struct action{
+	char * command;
+	char * action;
+	char * syntax;
 };
 
 class Parser{
 	public:
-		Parser();
+		Parser(char ** code);
 		~Parser();
-		int loadcfg();
-		int preparse();
-		int parse();
+		void loadcfg(char * cfg_path);
+		void preparse();
+		void parse();
 	private:
 		string * program;	//program array
 		symbol_table * st;	//symbol table array
-		actions * al;		//action list array
+		action * actions;	//action list array
 
 };
 
