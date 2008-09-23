@@ -8,8 +8,7 @@ Due to the graphical components of this project we will be using the Visual C++ 
 
 == APIs / Libraries ==
 
-Having decided on developing our own minesweeper as well as all of our own genetic algorithms, there are currently no outside libraries being used.
-
-kde minesweeper source was consulted as a reference.\
+  * The program parser will require some amount of regular expression matching, as such the boost/regexpp libraries will be used.
+  * kde minesweeper source was consulted as a reference.
 
 [DesignDocument Design Document] [Home]
