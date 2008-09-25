@@ -50,6 +50,7 @@ struct symbol_table{
 struct action{
 	char * command;
 	char * action;
+	char * link;
 	char * syntax;
 };
 
