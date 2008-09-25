@@ -48,6 +48,7 @@ void Parser::loadcfg(char * cfg_path){
 		if(line_in[0] != '#'){
 			actions[line_count].command = strtok(line_in,"\t");
 			actions[line_count].action = strtok(NULL,"\t");
+			actions[line_count].link = strtok(NULL,"\t");
 			actions[line_count].syntax = strtok(NULL,"\t");
 			line_count++;
 		}
