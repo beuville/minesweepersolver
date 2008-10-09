@@ -6,7 +6,7 @@
   * Program language definition completed
   * Program parser started
 
-The requirements called out by our design document, namely the game board/interface and program language definition have been completed. Furthermore in the process of completing the programming language definition a portion of the program parser was started putting the project ahead of schedule. 
+The requirements called out by our [DesignDocument design document], namely the game board/interface and program language definition have been completed. Furthermore in the process of completing the programming language definition a portion of the program parser was started putting the project ahead of schedule. 
 
 === Projected Progress ===
   * Parser completed
@@ -29,3 +29,5 @@ The fact that the game board and program language definitions were the main focu
 === Conclusion ===
 
 Thus far we have managed to keep the project going slightly ahead of schedule without large workloads. Chances are with the more complicated tasks coming up the workload will increase but progress should remain on, or ahead of schedule. The time-lost issues of library selection are behind us and the rest of the work should be essentially development/test oriented. 
+
+[Home]
