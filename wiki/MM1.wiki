@@ -25,5 +25,7 @@ Some time was wasted on trying to find/install/troubleshoot regular expression l
 The game board was eventually programmed using the GTK library, however several other libraries and approaches were tried before arriving at GTK. This did setback development significantly. 
 
 The fact that the game board and program language definitions were the main focus of the first milestone left one member of the team in a position that did not allow for fully participate. This will be remedied in the future both by a widening scope of development in the second milestone as well as a new programming practice that will allow for less localized development. Namely, creating skeleton functions that are well commented but incomplete and then allowing team members to complete the functions as needed. The issues tool provided by Google Code will facilitate this as well. 
+
 === Conclusion ===
 
+Thus far we have managed to keep the project going slightly ahead of schedule without large workloads. Chances are with the more complicated tasks coming up the workload will increase but progress should remain on, or ahead of schedule. The time-lost issues of library selection are behind us and the rest of the work should be essentially development/test oriented. 
