@@ -1,6 +1,9 @@
 #ifndef PARSER_H_
 #define PARSER_H_
 #include <string>
+
+#define SHORT_FIELD 24
+#define LONG_FIELD 128
 using namespace std;
 
 /* symbol_table is a single entry in the symbol table array containing information about
@@ -33,8 +36,8 @@ using namespace std;
 	identify themselves and group together control/loop structures.
 */
 struct symbol_table{
-	char name[16];
-	int value;
+	char name[SHORT_FIELD];
+	float value;
 	int location;
 	int count;
 };
@@ -48,20 +51,45 @@ struct symbol_table{
 	See actions.cfg
 */
 struct action{
-	char * command;
-	char * action;
-	char * link;
-	char * syntax;
+	char command[SHORT_FIELD];
+	char action[SHORT_FIELD];
+	char link[SHORT_FIELD];
+	char syntax[LONG_FIELD];
+};
+
+/* pre_parse_array is a tool used to reduce lookups to other arrays while storing pre-parse relevant information in 
+	single struct elements. During pre parse an array of these will be used to store information temporarily about each 
+	line of program code.
+*/
+struct pre_parse_array{
+	char command[SHORT_FIELD];
+	int action;
+	char line[LONG_FIELD];
+	char syntax[LONG_FIELD];
+	char variables[LONG_FIELD];
 };
 
 class Parser{
 	public:
-		Parser(char ** code);
+		Parser(char ** code,int pcount,char * cfg_path);
 		~Parser();
 		void loadcfg(char * cfg_path);
 		void preparse();
 		void parse();
+
+		int get_action(string line);		//returns action of a given line based on actions.cfg file
+		char * get_syntax(string line);
+		char * get_command(string line);
+		int action_to_int(string action);	//returns int action values based on string conversion
+
+		string get_variables(string line, string syntax); //returns variables from a given line of code based on syntax froma actions.cfg
+		string get_value(string line,string var_type);	//function for returning specific variable values from coded get_varibales strings
+	
+		void disp_st();
 	private:
+		int p_count;		//holds the length of the code array
+		int a_count;		//holds the lenght of the actions array
+		int s_count;		//holds the lenght of the symbol table array
 		string * program;	//program array
 		symbol_table * st;	//symbol table array
 		action * actions;	//action list array
