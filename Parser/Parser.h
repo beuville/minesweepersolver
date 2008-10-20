@@ -62,10 +62,7 @@ struct action{
 	line of program code.
 */
 struct pre_parse_array{
-	char command[SHORT_FIELD];
-	int action;
-	char line[LONG_FIELD];
-	char syntax[LONG_FIELD];
+	int action_index;
 	char variables[LONG_FIELD];
 };
 
@@ -77,14 +74,17 @@ class Parser{
 		void preparse();
 		void parse();
 
-		int get_action(string line);		//returns action of a given line based on actions.cfg file
-		char * get_syntax(string line);
-		char * get_command(string line);
+		int get_action(string line);		//returns action index of a given line
+		
 		int action_to_int(string action);	//returns int action values based on string conversion
 
 		string get_variables(string line, string syntax); //returns variables from a given line of code based on syntax froma actions.cfg
 		string get_value(string line,string var_type);	//function for returning specific variable values from coded get_varibales strings
 	
+		int get_next_link(string command, string links, int pcount);	//negotiates evaluate commands
+		string eval_link(string command,string links); //helper function for get_next_link
+
+
 		void disp_st();
 	private:
 		int p_count;		//holds the length of the code array
