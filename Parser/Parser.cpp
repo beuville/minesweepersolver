@@ -65,7 +65,7 @@ void Parser::loadcfg(char * cfg_path){
 	cfg_fp.clear();
 	cfg_fp.seekg(0,ios::beg);
 	//allocate actions memory
-	actions = new action[line_count];
+	actions = new action_struct[line_count];
 	a_count = line_count; //store the actions count in a private variable
 	//fill actions table
 	line_count=0;
