@@ -50,7 +50,7 @@ struct symbol_table{
 	sytnax will be used in conjunction with regular expression matching to identify commands. 
 	See actions.cfg
 */
-struct action{
+struct action_struct{
 	char command[SHORT_FIELD];
 	char action[SHORT_FIELD];
 	char link[SHORT_FIELD];
@@ -92,7 +92,7 @@ class Parser{
 		int s_count;		//holds the lenght of the symbol table array
 		string * program;	//program array
 		symbol_table * st;	//symbol table array
-		action * actions;	//action list array
+		action_struct * actions;	//action list array
 
 };
 
