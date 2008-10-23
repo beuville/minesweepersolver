@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
+#include <ctime>
 #include "Gameboard.h"
 using namespace std;
 /*
@@ -25,14 +25,20 @@ Gameboard::Gameboard(int bWidth, int bHeight, int nMines, int seed) {
         boardNumberOfMines = nMines;
     
     //create a multidimensional array for holding the gameboard
-    board = new int ** [boardWidth+1];
-    for (int i = 0; i <= boardWidth+1; i++)
-        board[i] = new int* [boardHeight+1];
+    board = new int ** [boardHeight];
+    for (int i = 0; i <= boardHeight; i++)
+        board[i] = new int* [boardWidth];
     
     //create a multidimensional array for holding the player's board
-    boardPlayer = new int ** [boardWidth+1];
-    for (int i = 0; i <= boardWidth+1; i++)
-        boardPlayer[i] = new int* [boardHeight+1];
+    boardPlayer = new int ** [boardHeight];
+    for (int i = 0; i <= boardHeight; i++)
+        boardPlayer[i] = new int* [boardWidth];
+    
+    for (int i = 0; i < boardHeight; i++)
+        for (int j = 0; j < boardWidth; j++)
+        {
+            board[i][j] = new int(0);
+        }
     
     //make sure the boards are clear
     clear();
@@ -89,7 +95,7 @@ float Gameboard::percentComplete() {
 * choose a square as a player
 */
 void Gameboard::pickSquare(int i, int n) {
-    if(i<boardWidth && n<boardHeight && i>-1 && n>-1)
+    if(i<boardHeight && n<boardWidth && i>-1 && n>-1)
     {
         if(newBoard){
             startSquarei = i;
@@ -102,18 +108,19 @@ void Gameboard::pickSquare(int i, int n) {
         int contents = getCoordinate(i, n, 'm');
         
         //check to see if it's a mine
-        if(contents == TYPE_MINE){
+        /*if(contents == TYPE_MINE){
             //if a mine display percent complete
-                cout << percentComplete() << endl;
-        }
+        //        cout << percentComplete() << endl;
+        //}
         //if it's already been picked, do nothing
-        else if (contents == getCoordinate(i, n))
+        else*/ if (contents == getCoordinate(i, n))
             ;
         else
         {
             setCoordinate(i, n, contents, 'p');
             
-            boardSquaresCleared++;
+            if(contents != TYPE_MINE)
+                boardSquaresCleared++;
             
             //if the square is empty, clear out neighboring trivial squares
             if (contents == 0)
@@ -134,8 +141,8 @@ void Gameboard::pickSquare(int i, int n) {
 * clear the board of values
 */
 void Gameboard::clear() {
-    for (int i = 0; i <= boardWidth-1; i++)
-        for (int n = 0; n <= boardHeight-1; n++)
+    for (int i = 0; i < boardHeight; i++)
+        for (int n = 0; n < boardWidth; n++)
         {
             setCoordinate(i, n, 0, 'p');
             setCoordinate(i, n, 0, 'm');
@@ -180,8 +187,8 @@ void Gameboard::generate() {
     int minesToBePlaced = boardNumberOfMines;
     //random code to place the mines
     do {
-        for (int i = 0; i <= boardWidth-1; i++)
-            for (int n = 0; n <= boardHeight-1; n++) {
+        for (int i = 0; i < boardHeight; i++)
+            for (int n = 0; n < boardWidth; n++) {
                 //check to see if a mine can/should be placed
                 if (minesToBePlaced != 0 && (getCoordinate(i, n, 'm') != TYPE_MINE)
                                          && !(i == startSquarei && n == startSquaren)
@@ -201,7 +208,7 @@ void Gameboard::generate() {
 void Gameboard::placeAttached(int &m_i, int &m_n, char player) {
     for (int i = m_i-1; i <= m_i+1; i++)
         for (int n = m_n-1; n <= m_n+1; n++)
-            if ((n > -1) & (i > -1) & (i <= boardWidth-1) & (n <= boardHeight-1))
+            if ((n > -1) & (i > -1) & (i < boardHeight) & (n < boardWidth))
                 if (getCoordinate(i, n, player) != TYPE_MINE)
                     setCoordinate(i, n, getCoordinate(i, n, player)+1, player);
 }
