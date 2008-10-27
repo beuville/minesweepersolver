@@ -10,11 +10,11 @@ class Gameboard {
     public:
         Gameboard(int bWidth, int bHeight, int nMines, int seed=-1);
         ~Gameboard();
-        void generate();
         int getCoordinate(int i, int n, char player='p');
         void print(char player);
         void pickSquare(int i, int n);
         float percentComplete();
+		int *** getBoard();
         int boardWidth;
         int boardHeight;
         int boardNumberOfMines;
@@ -26,6 +26,7 @@ class Gameboard {
         int gameSeed;
         bool setMine();
         void clear();
+        void generate();
         void placeAttached(int &i, int &n, char player);
         void setCoordinate(int i, int n, int value, char player);
         int *** board;
