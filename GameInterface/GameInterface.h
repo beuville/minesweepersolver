@@ -7,16 +7,35 @@
 
 using namespace std;
 
-struct report_specs{
-	float percent_complete;
+
+/* Definitions for Commands structure */
+#define GETBOARD 0
+#define PICKSQUARE 1
+
+struct Game_specs{
 	string difficulty;
+	int Width;
+	int Height;
+	int Mines;
+} board_specs;
+
+/* Allows sendCommand function to accomodate multiple commands */
+struct Commands{
+	int cmd_num;
+	int posx;
+	int posy;
 };
 
 class GameInterface{
 	public:
-		float reportSpecs();
-		int sendCommand();
-		report_specs report();
-		int initGame();
+		Game_specs reportSpecs();
+		int *** sendCommand(Commands cmd);
+		float report();
+		void initGame(string, int);
+	private:
+		Gameboard *board;
+		int width;
+		int height;
+		int mines;
 }
 #endif 

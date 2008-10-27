@@ -212,3 +212,10 @@ void Gameboard::placeAttached(int &m_i, int &m_n, char player) {
                 if (getCoordinate(i, n, player) != TYPE_MINE)
                     setCoordinate(i, n, getCoordinate(i, n, player)+1, player);
 }
+
+/*
+ * returns the player board's current values
+ */
+int *** Gameboard::getBoard(){
+	return boardPlayer;
+}
