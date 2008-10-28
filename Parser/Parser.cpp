@@ -5,11 +5,17 @@
 #include <string>
 #include "Parser.h"
 
+#define FALSE 0
+
 #define DECLARE 100
 #define UPDATE 101
 #define EVALUATE 102 
 #define MARKER 103
 #define GOTO 104
+
+#define DISPLAY 200
+
+#define GAMESPEC 404
 
 #define VALUE "<val>"
 #define NAME "<nam>"
@@ -20,7 +26,7 @@ using namespace std;
 /*Constructor 
 * string cfg: location of the config file defaulted to actions.cfg
 */
-Parser::Parser(char ** code, int pcount, char * cfg_path){
+Parser::Parser(string * code, int pcount, char * cfg_path){
 	p_count = pcount;	//assign length of code to private variable
 	//load up the program array
 	program = new string[p_count];
@@ -28,11 +34,10 @@ Parser::Parser(char ** code, int pcount, char * cfg_path){
 	for(int i = 0;i<p_count;i++){
 		program[i]=code[i];
 	}
-	
-	//load configurate, preparse then parse
+	//load configure, preparse then parse
 	loadcfg(cfg_path);
 	preparse();
-	//parse();
+	parse();
 }
 /*Destructor
 */
@@ -51,10 +56,10 @@ void Parser::loadcfg(char * cfg_path){
 	ifstream cfg_fp;
 	char line_in[256];
 	int line_count = 0;
-	
+
 	//open config file
 	cfg_fp.open(cfg_path,ifstream::in);
-	
+
 	//count lines that are not commented (don't begin with #)
 	while(cfg_fp.getline(line_in,256)){
 		if(line_in[0] != '#'){
@@ -87,7 +92,7 @@ void Parser::loadcfg(char * cfg_path){
 */
 void Parser::preparse(){
 	int symbol_count = 0;	//counter for lines in the symbol table
-	pre_parse_array * ppa = new pre_parse_array[p_count]; //allocate meta-data table entries for each line of code
+	ppa = new pre_parse_array[p_count]; //allocate meta-data table entries for each line of code
 
 	//go line by line through program code to determine the size of the symbol table
 	//all declare, evaluate, marker and goto commands will need entries in the symbol
@@ -95,7 +100,10 @@ void Parser::preparse(){
 	for(int i=0;i<p_count;i++){
 		//load ppa entry
 		ppa[i].action_index = get_action(program[i]);
-		strcpy(ppa[i].variables,get_variables(program[i],actions[ppa[i].action_index].syntax).c_str());
+		//dont get variables for game specific commands
+		if(ppa[i].action_index != 0){
+			strcpy(ppa[i].variables,get_variables(program[i],actions[ppa[i].action_index].syntax).c_str());
+		}
 		//switch action value, because the first step will be to count space needed in
 		//	the symbol table, each action that requires room in the symbol table 
 		//	(declare,evaluate,marker,goto)
@@ -103,7 +111,8 @@ void Parser::preparse(){
 			case DECLARE: 
 			case EVALUATE:
 			case MARKER:
-			case GOTO: symbol_count++; break;
+			case GOTO: 
+			case GAMESPEC:	symbol_count++; break;
 		}
 
 	}
@@ -116,7 +125,7 @@ void Parser::preparse(){
 	//start by looping the program array once again, we need a value to hold the next open location in symbol
 	//	table, we will re-use symbol_count now that s_count permantly holds its value.
 	symbol_count = 0;
-	//another variable is needed to adress the symbol table count
+
 	//cmd_count will serve to act as the 'count' variable for symbol table entries
 	//opening and closing statements for loop and conditional statements will have the same count value
 	//while symbol_count is updated after every entry in the symbol table, cmd_count will only be updated
@@ -133,14 +142,16 @@ void Parser::preparse(){
 				st[symbol_count].value = atof(get_value(ppa[i].variables,VALUE).c_str());//load value
 				st[symbol_count].location = i;		//load location
 				st[symbol_count].count = cmd_count; //load count
+				ppa[i].symbol_index = symbol_count;
 				cmd_count++;
 				symbol_count++;
 				break;
 			//evaluate commands (if, elseif, and for) will have symbol table entries based on their link properties
 			case EVALUATE:
-				int next_link = i;//get_next_link(actions[ppa[i].action_index].command,actions[ppa[i].action_index].link,i);
+				int next_link = i;
 				//resolve the links
 				do{
+					ppa[next_link].symbol_index = symbol_count;
 					strcpy(st[symbol_count].name,actions[ppa[next_link].action_index].command);//load name
 					st[symbol_count].location = next_link;	//load location
 					next_link = get_next_link(actions[ppa[next_link].action_index].command,actions[ppa[next_link].action_index].link,next_link);
@@ -148,17 +159,26 @@ void Parser::preparse(){
 					st[symbol_count].count = cmd_count;	//load count
 					symbol_count++;
 				}while(strcmp(actions[ppa[next_link].action_index].link,"nill")!=0);
+				//closing statement entries in the symbol table (eif, efor, etc)
 				strcpy(st[symbol_count].name,actions[ppa[next_link].action_index].command);//load name
-				st[symbol_count].location = next_link;
-				st[symbol_count].value = i;//back to the top for the value
-				st[symbol_count].count = cmd_count;	//load count
+				st[symbol_count].location = next_link;	//load location
+				st[symbol_count].value = i;				//back to the top for the value
+				st[symbol_count].count = cmd_count;		//load count
+				ppa[next_link].symbol_index = symbol_count;
 				symbol_count++;
 				cmd_count++;
 				break;
-			//in this case the default represents commands that don't require space in the symbol table
-			//(game specific commands, updates) and thus should not increment symbol_count
-			//also gotos and markers will default through as they are handled by the evaluate case
-			//no action is take for defualt fall throughs in pre-parser
+			case GAMESPEC:
+				strcpy(st[symbol_count].name,"gamespec");
+				st[symbol_count].location = i;
+				st[symbol_count].value = i;
+				st[symbol_count].count = -1;
+				ppa[i].symbol_index = symbol_count;
+				symbol_count++;
+				break;
+			case UPDATE:
+				ppa[i].symbol_index = -1;
+				break;
 		}
 	}
 }
@@ -178,6 +198,8 @@ int Parser::get_action(string line){
 			return i;
 		}
 	}
+	//no syntax matched, we will return a value that will associate this line with game-specific commands
+	return 0;
 }
 
 /* get_variables
@@ -209,12 +231,15 @@ string Parser::get_variables(string line, string syntax){
 //get_nam
 string Parser::get_value(string line, string var_type){
 	int start = line.find(var_type) + var_type.length();
-	return line.substr(start,line.find_first_of(',',start)-start);
+	string s1 = line.substr(start,line.find_first_of(',',start)-start);
+	//trim then return
+	s1=s1.substr(s1.find_first_not_of(' '),s1.find_last_not_of(' ')+1);
+	return s1;
 }
 
 /* get_next_link
 *	returns the line number of the next link related to a given command. starting at pcount for example
-*	command: if	links: [elseif|else|endif]
+*	command: if	links: elseif|else|endif
 *	will search for the next elseif,else while negotiating nested if commands.
 */
 int Parser::get_next_link(string command, string links, int pcount){
@@ -282,23 +307,244 @@ int Parser::action_to_int(string action){
 	else if(action.compare("update")==0){return UPDATE;}
 	else if(action.compare("marker")==0){return MARKER;}
 	else if(action.compare("goto")==0){return GOTO;}
+	else if(action.compare("gamespec")==0){return GAMESPEC;}
+	else if(action.compare("display")==0){return DISPLAY;}
 }
 
 /*parse
 * parse the array of code lines
 */
-
 void Parser::parse(){
+	int pc = 0;//program counter
+	string s1;
+	string s2;
+	//go the program line by line, use the ppa in conjuntion with actions table and symbol 
+	//table to determine the necessary action
+	while(pc < p_count){	//as long as pc has not exceeded the total length of the program, keep executing
+		//switch the action associated with the current line of code pointed to by pc
+		switch(action_to_int(actions[ppa[pc].action_index].action)){
+			//for specific information on what actions are taken in the parseing stage see 
+			//programming language definition
+			case UPDATE:
+				//replace variable names in 'value' field with lookups from the symbol table
+				//lookup update variable name
+				s1 = get_value(ppa[pc].variables,NAME);//value name
+				for(int i=0;i<s_count;i++){
+					//if the name field from the program line and the symbol table name are the same					
+					s2 = string(st[i].name);//symbol table name
+					if(s1.compare(s2)==0){
+						//update the value in the symbol table
+						st[i].value = lookup_eval(get_value(ppa[pc].variables,VALUE));
+						break;
+					}
+				}
+				pc+=1;
+				break;
+			case GOTO:
+				//move the pc to the line number indicated by the symbol table
+				pc=(int)st[ppa[pc].symbol_index].value;
+				break;
+			case EVALUATE:
+				//lookup_eval the condition, if it is false (0), move pc to one line past the link value
+				if(lookup_eval(get_value(ppa[pc].variables,CONDITION)) == FALSE){
+					pc = (int)st[ppa[pc].symbol_index].value + 1;
+				}
+				else{		//if it is true increment pc
+					pc+=1;
+				}
+				break;
+			case GAMESPEC: 
+				pc+=1;
+				break;
+			case DISPLAY:
+				if(strcmp(actions[get_action(program[pc])].command,"disp")==0){
+					s1 = get_value(ppa[pc].variables,NAME);//value name
+					for(int i=0;i<s_count;i++){
+						//if the name field from the program line and the symbol table name are the same					
+						s2 = string(st[i].name);//symbol table name
+						if(s1.compare(s2)==0){
+							//update the value in the symbol table
+							cout << "msso: " << st[i].value<<"\n";
+							break;
+						}
+					}
+				}
+				else if(strcmp(actions[get_action(program[pc])].command,"write")==0){
+					cout << "msso: " << get_value(ppa[pc].variables,NAME)<<"\n";
+				}
+				pc+=1;
+				break;
+			default:
+				pc+=1;
+		}
+	}
 }
 
+/* lookup_eval
+*	lookup the values of variables in the string vars, then evaluate the string returing an integer value
+*/
+float Parser::lookup_eval(string vars){
+	string::size_type loc;
+	char op;
+	string s1;
+	string s2;
+	float var1;
+	float var2;
+	for(int i = 0;i<vars.length();i++){
+		switch(vars[i]){
+			//find the location of operator
+			case '*':
+			case '/':
+			case '+':
+			case '-':
+			case '=':
+			case '<':
+			case '>':
+			case '#':
+			case '$':
+			case '%':
+			case '!':
+			//store the operator
+			op = vars[i];
+			//parse,lookup the operands
+			s1 = vars.substr(0,i);
+			s2 = vars.substr(i+1,vars.length());
+			//trim strings
+			s1=s1.substr(s1.find_first_not_of(' '),s1.find_last_not_of(' ')+1);
+			s2=s2.substr(s2.find_first_not_of(' '),s2.find_last_not_of(' ')+1);
+			//initialize variables
+			var1=atof(s1.c_str());
+			var2=atof(s2.c_str());
+			//lookup variable values
+			for(int j =0;j<s_count;j++){
+				if(s1.compare(st[j].name)==0){
+					var1 = st[j].value;
+				}
+			}
+			for(int j =0;j<s_count;j++){
+				if(s2.compare(st[j].name)==0){
+					var2 = st[j].value;
+				}
+			}
+			//evaluate and return
+			switch(op){
+				case '*':
+					return var1 * var2;
+					break;
+				case '/':
+					return var1 / var2;
+					break;
+				case '+':
+					return var1 + var2;
+					break;
+				case '-':
+					return var1 - var2;
+					break;
+				case '=':
+					return var1 == var2;
+					break;
+				case '<':
+					return var1 < var2;
+					break;
+				case '>':
+					return var1 > var2;
+					break;
+				case '#':
+					return var1 <= var2;
+					break;
+				case '$':
+					return var1 >= var2;
+					break;
+				case '%':
+					return (int)var1 % (int)var2;
+					break;
+				case '!':
+					return var1 != var2;
+					break;
+			}
+		}
+	}
+	//if the loop falls through, there were no operators, lookup the value
+	//lookup variable values
+	for(int j =0;j<s_count;j++){
+		if(vars.compare(st[j].name)==0){
+			return st[j].value;
+		}
+	}
+	//or return the value
+	return atoi(vars.c_str());
+}
 
-//crude function to display symbol table in cout
+//crude display functions
+void Parser:: disp_at(){
+	cout << "cmd\tact\tlnk\tstx\n";
+	for(int i=0;i<a_count;i++){
+		cout <<actions[i].command<<"\t"<<actions[i].action<<"\t"<<actions[i].link<<"\t"<<actions[i].syntax<<"\n";
+	}
+	cout <<"\n";
+}
+
 void Parser:: disp_st(){
 	cout << "name\tvalu\tloca\tcoun\n";
 	for(int i=0;i<s_count;i++){
 		cout<<st[i].name<<"\t"<<st[i].value<<"\t"<<st[i].location<<"\t"<<st[i].count<<"\n";
 	}
+	cout <<"\n";
 }
+<<<<<<< .mine
+
+void Parser:: disp_ppa(){
+	for(int i=0;i<p_count;i++){
+		cout <<ppa[i].action_index<<"\t"<<ppa[i].symbol_index<<"\t"<<program[i]<<"\t"<<ppa[i].variables<<"\n";
+	}
+	cout <<"\n";
+}
+/*_____---Main---_____
+*---------------------
+*---------------------
+*/
+int main(int argc, char ** argv){
+	ifstream prog_fp;
+	char in[256];
+	int lc = 0;
+	int temp=0;
+	string file_path;
+	if(argc == 1){
+		cout << "msserr: Must specify a file name\n";
+		return 0;
+	}
+	else{
+		file_path = argv[1];
+	}
+	//open program
+	prog_fp.open(file_path.c_str(),ifstream::in);
+	//count lines that are not commented (don't begin with #)
+	while(prog_fp.getline(in,256)){
+		if(in[0] != '#'){
+			lc++;
+		}
+	}
+	//rewind config file
+	prog_fp.clear();
+	prog_fp.seekg(0,ios::beg);
+	//allocate program space
+	string program[lc];
+	temp = lc; 
+	//load the program
+	lc=0;
+	while(prog_fp.getline(in,256)){
+		if(in[0] != '#'){
+			//trimming
+			string s = in;
+			s=s.substr(0,s.find_last_not_of(' '));
+			program[lc]=s;
+			lc++;
+		}
+	}
+	//cleanup
+	prog_fp.close();
+	Parser p(program,temp,"actions.cfg");
+=======
 
 /*
 int main(){
@@ -308,16 +554,8 @@ int main(){
 	//cout << p.get_variables("ewhile","ewhile") << "\n";
 	//cout <<p.get_value("<nam>var1,<val>200,","<nam>")<<"\n";
 	//cout <<p.get_value("<nam>var1,<val>200,","<val>")<<"\n";
+>>>>>>> .r144
 	
-	//cout << p.eval_link("else","elseif|else|eif") << "\n";
-	//cout << p.eval_link("eif","elseif|else|eif") << "\n";
-	//cout << p.eval_link("if","elseif|else|eif") << "\n";
-	//cout << p.eval_link("efor","efor") << "\n";
-
-	//cout << p.get_next_link("if","elseif|else|eif",3) << "\n";
-	//cout << p.get_next_link("if","elseif|else|eif",6) << "\n";
-
-	p.disp_st();
 	return 0;
 }
 */
