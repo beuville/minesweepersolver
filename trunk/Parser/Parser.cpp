@@ -491,7 +491,6 @@ void Parser:: disp_st(){
 	}
 	cout <<"\n";
 }
-<<<<<<< .mine
 
 void Parser:: disp_ppa(){
 	for(int i=0;i<p_count;i++){
@@ -544,19 +543,4 @@ int main(int argc, char ** argv){
 	//cleanup
 	prog_fp.close();
 	Parser p(program,temp,"actions.cfg");
-=======
-
-/*
-int main(){
-	char * program[100] = {"int var1=100","int var2=200","float var3=10.1","if var1=var2","if var2>var3","update var3=5.5","eif","update var1=200","else","update var2=100","eif","int i=0","for i;i<5;1","update var1=var1+1","efor"};
-	Parser p(program,15,"actions.cfg");
-	//cout << p.get_variables("int var1=100","int <nam>=<val>") << "\n";
-	//cout << p.get_variables("ewhile","ewhile") << "\n";
-	//cout <<p.get_value("<nam>var1,<val>200,","<nam>")<<"\n";
-	//cout <<p.get_value("<nam>var1,<val>200,","<val>")<<"\n";
->>>>>>> .r144
-	
-	return 0;
 }
-*/
-
