@@ -63,29 +63,33 @@ struct action_struct{
 */
 struct pre_parse_array{
 	int action_index;
+	int symbol_index;
 	char variables[LONG_FIELD];
 };
 
 class Parser{
 	public:
-		Parser(char ** code,int pcount,char * cfg_path);
+		Parser(string * code,int pcount,char * cfg_path);
 		~Parser();
 		void loadcfg(char * cfg_path);
+
 		void preparse();
-		void parse();
-
-		int get_action(string line);		//returns action index of a given line
+			int get_action(string line);		//returns action index of a given line
 		
-		int action_to_int(string action);	//returns int action values based on string conversion
+			int action_to_int(string action);	//returns int action values based on string conversion
 
-		string get_variables(string line, string syntax); //returns variables from a given line of code based on syntax froma actions.cfg
-		string get_value(string line,string var_type);	//function for returning specific variable values from coded get_varibales strings
+			string get_variables(string line, string syntax); //returns variables from a given line of code based on syntax froma actions.cfg
+			string get_value(string line,string var_type);	//function for returning specific variable values from coded get_varibales strings
 	
-		int get_next_link(string command, string links, int pcount);	//negotiates evaluate commands
-		string eval_link(string command,string links); //helper function for get_next_link
+			int get_next_link(string command, string links, int pcount);	//negotiates evaluate commands
+			string eval_link(string command,string links); //helper function for get_next_link
 
+		void parse();
+			float lookup_eval(string vars);	//lookup and evaluate
 
+		void disp_at();
 		void disp_st();
+		void disp_ppa();
 	private:
 		int p_count;		//holds the length of the code array
 		int a_count;		//holds the lenght of the actions array
@@ -93,6 +97,7 @@ class Parser{
 		string * program;	//program array
 		symbol_table * st;	//symbol table array
 		action_struct * actions;	//action list array
+		pre_parse_array * ppa;//meta-data for program code
 
 };
 
