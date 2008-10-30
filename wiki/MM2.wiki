@@ -6,12 +6,11 @@
   * Program language definition completed
   * Program parser completed
   * Configuration file for program parser complete
-  * Game instance almost complete
+  * Game instance complete
 
-We have fallen slightly behind on the requirements called out by our [DesignDocument design document].  The virtual machine is not completely up and running, but almost all of the components are fully functional with the program parser/game interface integration having some small hangups.  We have not begun digging too deeply into how exactly our genetic algorithms will be formed, but that is soon to come.
+We have fallen slightly behind on the requirements called out by our [DesignDocument design document].  The virtual machine running, but is not multi-threaded. All of the components are fully functional with the program parser/game interface integration having some small hangups.  Specifically, the game interface is currently executing and old, text-based minesweeper gui. We have not begun digging too deeply into how exactly our genetic algorithms will be formed, but that is soon to come.
 
 === Projected Progress ===
-  * Completion of game instance
   * Virtual machine multi-threaded
   * Population creation
   * Iteration scheme developed
@@ -21,6 +20,7 @@ The third milestone of this project is where the genetic algorithm portion of th
 === Problems Encountered ===
   * Problems with GTK+ libraries and Visual Studio
   * Heavy reliance on a linear progression of components
+  * Multi-threading difficulties
 
 Some time was wasted in trying to get the original minesweeper game to run in Visual Studio involving problems with some GTK+ libraries. 
 
