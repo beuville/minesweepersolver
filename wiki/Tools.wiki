@@ -10,7 +10,10 @@ Documentation and versioning will be handled by google docs and google code.
 
 = Libraries =
 
-KDE Minesweeper Source code
+  * http://www.linuxselfhelp.com/HOWTO/C++Programming-HOWTO-18.html
+    * used for thread creation
+  * KDE Minesweeper Source code
+    * consulted when developing our minesweeper board
 
 [Prospectus]
 [Home]
