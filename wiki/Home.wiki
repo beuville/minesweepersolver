@@ -8,5 +8,5 @@
 == Milestone Meetings ==
 
   * [MM1 Meeting 1]
-  * Meeting 2
+  * [MM2 Meeting 2]
   * Meeting 3
