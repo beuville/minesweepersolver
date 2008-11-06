@@ -140,6 +140,12 @@ Parser::Parser(string * code, int pcount, string cfg_path){
 	for(int i = 0;i<p_count;i++){
 		program[i]=code[i];
 	}
+	//check config path
+	ifstream ckstream(cfg_path.c_str());
+	if(! ckstream.good()){
+		cout << "could not open language def file, exiting\n";
+		exit(-5);
+	}
 	loadcfg(cfg_path);		//load configuration file into memory
 	//cout << "configuration loaded\n";
 	gi.initGame("easy",-1);	//initialize game board
