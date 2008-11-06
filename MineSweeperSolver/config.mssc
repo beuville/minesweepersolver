@@ -1,0 +1,9 @@
+lgdef: languagedef.mssc
+tsdir: test1
+gmdif: easy
+gener: 5
+iters: 10
+popul: 10
+thres: 1
+mutat: 1
+combi: 1
