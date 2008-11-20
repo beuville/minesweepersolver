@@ -20,16 +20,16 @@ Our project is nearly complete.  We have the program create random pieces of cod
   * Population
   * Iteration 
 
-We have created the format for the configuration files for the main program to tell the virtual machine what to do.  Also, we have created population files that allow the interpreter to run through the code and have the main program analyze the data.  However, we do not have the genetic algorithm up and running currently.  The program will iterate through the population files but it will not create new generations based on the previous generations population.
+We have created the format for the configuration files for the main program to tell the virtual machine what to do.  Also, we have created population files that allow the interpreter to run through the code and have the main program analyse the data.  However, we do not have the genetic algorithm up and running currently.  The program will iterate through the population files but it will not create new generations based on the previous generations population.
 
 
 === Problems Encountered ===
   * Learning how to debug the new language
   * Finding a way to combine and mutate populations to new generations in this new language
 
-Due to the newly created programming language, knowing what caused erroneous results without any compiler telling you what caused them sometimes proved difficult, even in a very simple setting.  Many times, a misspelled word in our program creating algorithms resulted in the solver returning a solving rate of zero percent for all populations, which is impossible if one square was picked.
+Due to the newly created programming language, knowing what caused erroneous results without any compiler telling you what caused them sometimes proved difficult, even in a very simple setting.  Many times, a misspelled word in our population creation algorithms resulted in the solver returning a solving rate of zero percent for all populations, which is impossible if one square was picked.
 
-As stated earlier, knowing how to create a simple enough algorithm to combine it with another algorithm was difficult.  Our idea consisted of creating preset blocks of code that we knew would work so the program will generate random solvers by picking different pieces laid out.  However, our blocks of code used were generally so intricate, they were self sufficient and adding an extra block of code from another solver would prove meaningless.
+As stated earlier, knowing how to create a simple enough algorithm in a very simple language to combine it with another algorithm was difficult.  Our idea consisted of creating preset blocks of code that we knew would work so the program will generate random solvers by picking different pieces that had already been created.  However, our blocks of code used were generally so intricate, they were already self sufficient and adding an extra block of code from another solver would prove meaningless.
 
 We will have to keep considering and working on new ideas on how we want to solve the genetic algorithm problem.  It would seem our initial idea of blocking out pieces of code may not work as efficiently as we would like it to for solving this problem and we may need to compartmentalize the pieces more to allow for combination and alteration.
 
