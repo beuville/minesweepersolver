@@ -1,0 +1,57 @@
+#WARNING: all lines that are not to be entries in the actions table must be commented with #
+#declare: 
+#	pre-parse: ignore declares during pre-parse as variables may be initialized on the fly with dynamic values.
+#
+#	parse: create an entry in the smybol table of the command type with name <name> and value <value>. Only supported types
+#		will be allowed. For this project this means ints and floats, but functionality for other types could be added. If
+#		a name already exists in the symbol table it should be overwritten with the new value. 
+#
+#update:
+#	pre-parse: updates are ignored during pre-parseing as they do not require an entry in the symbol table
+#	prase: during parsing updates will lookup <name> and changes its value in the symbol table to <value>
+#		
+#evaluate:
+#	pre-parse: depending on the command each evaluate will have a different pre-parse consequence. But each evaluate will 
+#		have some resulting entry in the symbol table. 
+#
+#	parse: during parsing commands identified as evaluate will have their <condition> evaluated. In the case of 
+#		positive outcome, execution contiues, with negative outcome lookup to the symbol table will be made to find
+#		the target of the next executubale line of code. i.e. for if statments if the <condition> results in true, 
+#		then the next line will be executed, if the condition results in <false> a lookup to find the next else or eif 
+#		line# in the symbol table will be made. In the case of the for loop, the increment will be done following the
+#		evaluate prior to the next line of code being executed upon position results from the <condition>
+#
+#marker:
+#	pre-parse: marker commands will have an entry in the symbol table made with their correspoding index number (line#)
+#
+#	parse: markers are ignored during parsing as they serve only as a goto mark
+#
+#goto:
+#	pre-parse: goto commands will have an entry in the symbol table made with their target line#
+#
+#	parse: the program pointer will be moved to the index in the program array corresponding with the goto target
+#		retrieved from the symbol table. Care must be taken when exiting loops and conditions such that they exit 
+#		beyond their corresponding ends otherwise their end markers will loop them back to their start endlessly
+#
+#
+#Link is used in preprocessing only to identify corresponding code groups i.e. if related to elseif, else, and eif
+#	this allows for the preprocessor to correctly load the symbol table even with nested loops/ifs using
+#	a nested count
+#
+#dont edit this line, it reserves array index 0 for all game specific commands
+gamespec	gamespec	nill	nill
+#
+#all syntax and links should be in the perl regular expression syntax except for nill links
+#command:	action:		link:			syntax:
+#
+int	declare	nill	int <nam>=<val>
+float	declare	nill	float <nam>=<val>
+update	update	nill	update <nam>=<val>
+if	evaluate	eif|elseif|else	if <cnd>
+eif	marker	nill	eif
+elseif	evaluate	eif|elseif|else	elseif <cnd>
+else	marker	eif	else
+while	evaluate	ewhile	while <cnd>
+ewhile	goto	nill	ewhile
+write	display	nill	write <nam>
+disp	display	nill	disp <nam>
