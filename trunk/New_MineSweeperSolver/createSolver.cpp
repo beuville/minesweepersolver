@@ -14,6 +14,8 @@ malkovich malkovich malkovich malkovich malkovich
 string conditions[] = {"<",">","=","#","$","!"};
 string manips[] = {"+","-","*","/"};
 
+void whileFound(ofstream *out, ifstream *input, int *num_of_lines, string *filestring);
+
 //keeping track of all the variables used for while loops so that
 //they don't step on each other
 int numWhileVars;
@@ -41,7 +43,7 @@ void createSolver::sCreate(string file, int seedUp)
 			exit(-6);
 	}
 
-	//make 10 requests for lines
+	//make 100 requests for lines
     for (int i=0; i<100; i++)
 	{
     	out << getLine();
@@ -96,8 +98,11 @@ string createSolver::getWhile(){
         if(val >= val2)
             val2 = val+1;
     }
+	//Mark the beginning of the while loop
+	out << "#while\n";
 
     if(numWhileVars>maxWhileVars){
+
         //initialize looping variabl
         out << "int wvar" << numWhileVars << "=" << val << endl;
         //open the while loop
@@ -105,6 +110,7 @@ string createSolver::getWhile(){
         //set the loop to update each pass through
         out << "update wvar" << numWhileVars << "=wvar" << numWhileVars << manips[con] << "1\n";
         //mark the variable as used so no one edits it
+
         numWhileVars++;
         maxWhileVars++;
     }
@@ -124,6 +130,7 @@ string createSolver::getWhile(){
     out << getLine();
     //end the loop
     out << "ewhile\n";
+	out << "#ewhile\n";
     numWhileVars--;
     
     return out.str();
@@ -142,6 +149,7 @@ string createSolver::getOther(){
 
     //pick a square
     if(rand()%3){
+		out <<"#picsq selection\n";
         out << "picsq ";
 
         //if no loops are chilling about, make it all random
@@ -196,7 +204,7 @@ string createSolver::getOther(){
                 var = rand()%(numWhileVars);
                 //if beyond the range of loop variables, make it random
     //            if(var == numWhileVars-1 || var >= boardHeight)
-                    out << rand()%boardHeight << endl;
+                out << rand()%boardHeight << endl;
                 //otherwise grab the loop variable
     //            else
     //                out << "wvar" << var << endl;
@@ -264,4 +272,83 @@ string createSolver::getOther(){
         }
     }
     return out.str();
+}
+
+void combine_best(vector<string> selected_files, mssv vars, int cur_gen){
+	int vect = 0;
+	int num_of_lines = 0;
+	stringstream out;
+	int next_gen = cur_gen+1;
+	srand(time(0));
+
+	while(vect < selected_files.size()){
+		int rand_file1 = rand()%selected_files.size();
+		int rand_file2 = rand()%selected_files.size();
+
+		for(int i = 0; i < vars.population; i++){
+			char *file1, *file2, *newfile;
+			char *buf1, *buf2;
+
+			sprintf(file1, "%s%s", vars.test_dir.c_str(), selected_files.at(rand_file1));
+			sprintf(file2, "%s%s", vars.test_dir.c_str(), selected_files.at(rand_file2));
+
+			ifstream input1(file1);
+			ifstream input2(file2);
+			
+			_itoa_s(next_gen,buf1,10, 0);
+			_itoa_s(i,buf2,10, 0);
+			sprintf(newfile, "%s%s%s%s", vars.test_dir, "_gen_", buf1, "population_", buf2);
+			ofstream out(newfile);
+
+			if(!input1.good() || !input2.good() || !out.good()){
+				cout <<"error creating pop member: "<<file1<< "/" <<file2<< "\n";
+				exit(-10);
+			}
+
+			string file1string, file2string;
+			while((!input1.eof() & !input2.eof())){
+				int random = rand()%2;
+				input1 >> file1string;
+				input2 >> file2string;
+				switch(random){
+					case 0:
+						if(file1string.at(0) == '#'){
+							if(strcmp(file1string.c_str(), "#picsq selection\n") == 0){
+								out <<file1string;
+								input1 >> file1string;
+								out <<file1string;
+								num_of_lines += 2;
+							}else if(strcmp(file1string.c_str(), "#while\n") == 0){
+								whileFound(&out, &input1, &num_of_lines, &file1string);
+							}
+						}
+						break;
+					case 1:
+						if(file2string.at(0) == '#'){
+							if(strcmp(file2string.c_str(), "#picsq selection\n") == 0){
+								input2 >> file2string;
+								out <<file2string;
+							}
+						}
+						break;
+				}//end switch
+			}
+		}//end for
+	}//end while
+}
+
+void whileFound(ofstream *out, ifstream *input, int *num_of_lines, string *filestring){
+	int while_count = 1;
+	(*out) <<(*filestring);
+
+	while(strcmp((*filestring).c_str(), "#ewhile\n") && while_count > 1);
+		(*input) >> (*filestring);
+		(*num_of_lines)++;
+		if(strcmp((*filestring).c_str(), "#while\n") == 0){
+			while_count++;
+		}else if(strcmp((*filestring).c_str(), "#ewhile\n") == 0){
+			while_count--;
+		}else{
+			((*out)) <<(*filestring);
+		}
 }
