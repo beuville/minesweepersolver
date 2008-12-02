@@ -11,6 +11,7 @@ malkovich malkovich malkovich malkovich malkovich
 */
 #include "createSolver.h"
 
+#define BUFMAX 256
 string conditions[] = {"<",">","=","#","$","!"};
 string manips[] = {"+","-","*","/"};
 
@@ -274,81 +275,112 @@ string createSolver::getOther(){
     return out.str();
 }
 
-void combine_best(vector<string> selected_files, mssv vars, int cur_gen){
-	int vect = 0;
+void createSolver::combine_best(vector<string> selected_files, mssv vars, int cur_gen){
 	int num_of_lines = 0;
 	stringstream out;
 	int next_gen = cur_gen+1;
 	srand(time(0));
 
-	while(vect < selected_files.size()){
-		int rand_file1 = rand()%selected_files.size();
-		int rand_file2 = rand()%selected_files.size();
+	int rand_file1 = rand()%selected_files.size();
+	int rand_file2 = rand()%selected_files.size();
+	//In case the random numbers are equal, redo
+	while(rand_file1 == rand_file2 && selected_files.size() > 1){
+		rand_file2 = rand()%selected_files.size();
+	}
 
-		for(int i = 0; i < vars.population; i++){
-			char *file1, *file2, *newfile;
-			char *buf1, *buf2;
+	for(int i = 0; i < vars.population; i++){
+		char file1[BUFMAX], file2[BUFMAX], newfile[BUFMAX];
+		char buf1[BUFMAX], buf2[BUFMAX];
 
-			sprintf(file1, "%s%s", vars.test_dir.c_str(), selected_files.at(rand_file1));
-			sprintf(file2, "%s%s", vars.test_dir.c_str(), selected_files.at(rand_file2));
+		ifstream input1(selected_files.at(rand_file1).c_str());
+		ifstream input2(selected_files.at(rand_file2).c_str());
+		
+		_itoa_s(next_gen,buf1,10, 10);
+		_itoa_s(i,buf2,10, 10);
+		sprintf(newfile, "%s\\%s%s%s\\%s%s%s", vars.test_dir.c_str(), vars.test_dir.c_str(), "_gen_", buf1, "population_", buf2, ".mss", " ");
+		ofstream out(newfile);
 
-			ifstream input1(file1);
-			ifstream input2(file2);
+		if(!input1.good() || !input2.good() || !out.good()){
+			cout <<"error creating pop member: "<<file1<< "/" <<file2<< "\n";
+			exit(-10);
+		}
+
+		char file1buf[BUFMAX], file2buf[BUFMAX];
+		while(!input1.eof() && !input2.eof()){
+			int random = rand()%2;
+			input1.getline(file1buf, BUFMAX);
+			input2.getline(file2buf, BUFMAX);
 			
-			_itoa_s(next_gen,buf1,10, 0);
-			_itoa_s(i,buf2,10, 0);
-			sprintf(newfile, "%s%s%s%s", vars.test_dir, "_gen_", buf1, "population_", buf2);
-			ofstream out(newfile);
-
-			if(!input1.good() || !input2.good() || !out.good()){
-				cout <<"error creating pop member: "<<file1<< "/" <<file2<< "\n";
-				exit(-10);
-			}
-
-			string file1string, file2string;
-			while((!input1.eof() & !input2.eof())){
-				int random = rand()%2;
-				input1 >> file1string;
-				input2 >> file2string;
-				switch(random){
-					case 0:
-						if(file1string.at(0) == '#'){
-							if(strcmp(file1string.c_str(), "#picsq selection\n") == 0){
-								out <<file1string;
-								input1 >> file1string;
-								out <<file1string;
-								num_of_lines += 2;
-							}else if(strcmp(file1string.c_str(), "#while\n") == 0){
-								whileFound(&out, &input1, &num_of_lines, &file1string);
-							}
+			switch(random){
+				case 0:
+					if(file1buf[0] == '#'){
+						if(strcmp(file1buf, "#picsq selection") == 0){
+							out << file1buf << "\n";
+							input1.getline(file1buf, BUFMAX);
+							out << file1buf << "\n";
+							num_of_lines += 2;
+							skipSection(&input2);
+						}else if(strcmp(file1buf, "#while") == 0){
+							whileFound(&out, &input1, &num_of_lines, file1buf);
+							skipSection(&input2);
 						}
-						break;
-					case 1:
-						if(file2string.at(0) == '#'){
-							if(strcmp(file2string.c_str(), "#picsq selection\n") == 0){
-								input2 >> file2string;
-								out <<file2string;
-							}
+					}
+					break;
+				case 1:
+					if(file2buf[0] == '#'){
+						if(strcmp(file2buf, "#picsq selection") == 0){
+							out << file2buf << "\n";
+							input2.getline(file2buf, BUFMAX);
+							out << file2buf << "\n";
+							skipSection(&input1);
+						}else if(strcmp(file2buf, "#while") == 0){
+							whileFound(&out, &input1, &num_of_lines, file2buf);
+							skipSection(&input1);
 						}
-						break;
-				}//end switch
-			}
-		}//end for
-	}//end while
+					}
+					break;
+			}//end switch
+		}//end while
+		input1.close();
+		input2.close();
+		out.close();
+	}//end for
 }
 
-void whileFound(ofstream *out, ifstream *input, int *num_of_lines, string *filestring){
+void createSolver::whileFound(ofstream *out, ifstream *input, int *num_of_lines, char *filestring){
 	int while_count = 1;
-	(*out) <<(*filestring);
+	(*out) << filestring << "\n";
 
-	while(strcmp((*filestring).c_str(), "#ewhile\n") && while_count > 1);
-		(*input) >> (*filestring);
+	while(strcmp(filestring, "#ewhile") != 0 && while_count >= 1 && !(input->eof())){
+		(*input).getline(filestring, BUFMAX);
 		(*num_of_lines)++;
-		if(strcmp((*filestring).c_str(), "#while\n") == 0){
+		if(strcmp(filestring, "#while") == 0){
 			while_count++;
-		}else if(strcmp((*filestring).c_str(), "#ewhile\n") == 0){
+		}else if(strcmp(filestring, "#ewhile") == 0){
 			while_count--;
-		}else{
-			((*out)) <<(*filestring);
 		}
+		(*out) << filestring << "\n";
+	}
+}
+
+void createSolver::skipSection(ifstream *input){
+	int while_count = 0;
+	char skip[256];
+	(*input).getline(skip, BUFMAX);
+
+	if(skip[0] == '#'){
+		if(strcmp(skip, "#while") == 0){
+			while_count++;
+			while(strcmp(skip, "#ewhile") && while_count > 1){
+				(*input).getline(skip, BUFMAX);
+				if(strcmp(skip, "#while") == 0){
+					while_count++;
+				}else if(strcmp(skip, "#ewhile") == 0){
+					while_count--;
+				}
+			}	
+		}else if(strcmp(skip, "#picsq selection") == 0){
+			(*input).getline(skip, BUFMAX);
+		}
+	}
 }
