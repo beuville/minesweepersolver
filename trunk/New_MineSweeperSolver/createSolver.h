@@ -32,6 +32,7 @@ class createSolver{
         string getLine();
         string getWhile();
         string getOther();
-		void whileFound(ofstream *out, ifstream *input, int *num_of_lines, string *filestring);
+		void skipSection(ifstream *input);
+		void whileFound(ofstream *out, ifstream *input, int *num_of_lines, char *filestring);
 };
 #endif 
